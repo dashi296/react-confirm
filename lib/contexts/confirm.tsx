@@ -1,4 +1,5 @@
-import React, { useRef, useState, createContext, ReactNode, ReactElement, cloneElement } from 'react';
+import React, { useRef, useState, createContext, ReactNode, ReactElement } from 'react';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 type ConfirmContextType = {
   confirm: ({
@@ -27,7 +28,7 @@ type ConfirmDialogComponents = {
   Confirm: ReactElement;
 }
 
-type ConfirmOptions = {
+export type ConfirmOptions = {
   okText: string;
   cancelText: string;
   components: ConfirmDialogComponents;
@@ -107,43 +108,4 @@ export function useConfirm () {
     throw new Error('useConfirm must be used within a ConfirmProvider');
   }
   return context;
-}
-
-type ConfirmDialogProps = {
-  title?: ReactNode;
-  message: ReactNode;
-  onConfirm: () => void;
-  onCancel: () => void;
-  options: ConfirmOptions;
-};
-function ConfirmDialog({
-  title,
-  message,
-  onConfirm,
-  onCancel,
-  options,
-}: ConfirmDialogProps) {
-  
-  const {
-    Root,
-    Overlay,
-    Content,
-    Title,
-    Description,
-    Close,
-  } = options.components
-
-  return (
-      cloneElement(Root, {...Root.props, key: "root"}, [
-        cloneElement(Overlay, {...Overlay.props, key: "overlay"}, [
-          cloneElement(Content, {...Content.props, key: "content"}, [
-            cloneElement(Title, {...Title.props, key: "title"}, title),
-            cloneElement(Description, {...Description.props, key: "description"}, message),
-            cloneElement(Close, { ...Close.props, key: "close", onClick: onCancel }, options.cancelText
-            ),
-            cloneElement(Close, { ...Close.props, key: "confirm", onClick: onConfirm }, options.okText),
-          ]),
-        ]),
-      ])
-  );
 }
