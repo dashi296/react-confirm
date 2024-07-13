@@ -1,25 +1,72 @@
-import React, { useRef, useState, createContext, ReactNode } from 'react';
+import React, { useRef, useState, createContext, ReactNode, ReactElement, cloneElement } from 'react';
 
 type ConfirmContextType = {
-  confirm: (message: string) => Promise<boolean>;
+  confirm: ({
+    title, message
+  }: {
+    title?: ReactNode;
+    message: ReactNode;
+  }, customOptions?: CustomConfirmOptions) => Promise<boolean>;
 };
 
 type ConfirmState = {
   id: number;
-  message: string;
+  title?: ReactNode;
+  message: ReactNode;
   resolve: (result: boolean) => void;
+  customOptions?: CustomConfirmOptions;
 }
+
+type ConfirmDialogComponents = {
+  Root: ReactElement;
+  Overlay: ReactElement;
+  Content: ReactElement;
+  Title: ReactElement;
+  Description: ReactElement;
+  Close: ReactElement;
+  Confirm: ReactElement;
+}
+
+type ConfirmOptions = {
+  okText: string;
+  cancelText: string;
+  components: ConfirmDialogComponents;
+}
+
+type CustomConfirmOptions = {
+  okText?: string;
+  cancelText?: string;
+  components?: CustomConfirmDialogComponents;
+}
+
+type CustomConfirmDialogComponents = Partial<ConfirmDialogComponents>
 
 const ConfirmContext = createContext<ConfirmContextType | undefined>(undefined);
 
-export function ConfirmProvider({ children }: { children: ReactNode }) {
+const baseComponents: ConfirmDialogComponents = {
+  Root: <div />,
+  Overlay: <div className="DialogOverlay" />,
+  Content: <div className="DialogContent" />,
+  Title: <h2 />,
+  Description: <p />,
+  Close: <button />,
+  Confirm: <button />,
+};
+
+const baseOptions: ConfirmOptions = {
+  okText: 'OK',
+  cancelText: 'Cancel',
+  components: baseComponents,
+}
+
+export function ConfirmProvider({ children, defaultOptions }: { children: ReactNode, defaultOptions?: CustomConfirmOptions }) {
   const [confirmStates, setConfirmStates] = useState<ConfirmState[]>([]);
   const idCounter = useRef(0);
 
-  const confirm = (message: string) => {
+  const confirm = ({title, message}: { title?: ReactNode, message: ReactNode } , customOptions?: CustomConfirmOptions) => {
     return new Promise<boolean>((resolve) => {
       const id = idCounter.current++;
-      setConfirmStates((prev) => [...prev, { id, message, resolve }]);
+      setConfirmStates((prev) => [...prev, { id, title, message, resolve, customOptions }]);
     });
   };
 
@@ -36,12 +83,18 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
   return (
     <ConfirmContext.Provider value={{ confirm }}>
       {children}
-      {confirmStates.map(({ id, message }) => (
+      {confirmStates.map(({ id, title, message, customOptions }) => (
         <ConfirmDialog
           key={id}
+          title={title}
           message={message}
           onConfirm={() => handleConfirm(id, true)}
           onCancel={() => handleConfirm(id, false)}
+          options={{ ...baseOptions, ...defaultOptions, ...customOptions, components: {
+            ...baseOptions.components,
+            ...defaultOptions?.components,
+            ...customOptions?.components,
+          }}}
         />
       ))}
     </ConfirmContext.Provider>
@@ -57,20 +110,40 @@ export function useConfirm () {
 }
 
 type ConfirmDialogProps = {
-  message: string;
+  title?: ReactNode;
+  message: ReactNode;
   onConfirm: () => void;
   onCancel: () => void;
+  options: ConfirmOptions;
 };
 function ConfirmDialog({
+  title,
   message,
   onConfirm,
   onCancel,
+  options,
 }: ConfirmDialogProps) {
+  
+  const {
+    Root,
+    Overlay,
+    Content,
+    Title,
+    Description,
+    Close,
+  } = options.components
+
   return (
-    <div>
-      <span>{message}</span>
-      <button onClick={onConfirm}>Confirm</button>
-      <button onClick={onCancel}>Cancel</button>
-    </div>
+      cloneElement(Root, {...Root.props, key: "root"}, [
+        cloneElement(Overlay, {...Overlay.props, key: "overlay"}, [
+          cloneElement(Content, {...Content.props, key: "content"}, [
+            cloneElement(Title, {...Title.props, key: "title"}, title),
+            cloneElement(Description, {...Description.props, key: "description"}, message),
+            cloneElement(Close, { ...Close.props, key: "close", onClick: onCancel }, options.cancelText
+            ),
+            cloneElement(Close, { ...Close.props, key: "confirm", onClick: onConfirm }, options.okText),
+          ]),
+        ]),
+      ])
   );
 }

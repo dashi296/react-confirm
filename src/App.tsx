@@ -6,7 +6,7 @@ export default function App() {
   const { counter, increment } = useCounter()
   const { confirm } = useConfirm()
   const handleClick = async () => {
-    const result = await confirm("Are you sure?")
+    const result = await confirm({ title: "sample", message: "Are you sure?"})
     if (result) {
       increment()
     }
