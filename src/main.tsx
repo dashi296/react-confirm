@@ -5,8 +5,8 @@ import { ConfirmProvider } from "../lib/main";
 import "./style.css";
 
 const defaultOptions = {
-  okText: "はい",
-  cancelText: "いいえ",
+  okText: "+1",
+  cancelText: "reset",
   components: {
     Title: <h1 style={{ color: "red" }} />
   }
