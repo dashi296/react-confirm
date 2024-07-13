@@ -4,3 +4,5 @@ export function useCounter() {
   const increment = () => setCounter((prev => prev + 1))
   return { counter, increment }
 }
+
+export { ConfirmProvider, useConfirm } from "./contexts/confirm"
