@@ -1,5 +1,5 @@
 import React from "react"
-import { useConfirm } from "../lib/main"
+import { useConfirm } from "../dist/index"
 
 import { useState } from "react"
 export function useCounter() {
