@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), dts()],
   build: {
     lib: {
-      entry: resolve(__dirname, './lib/main.ts'),
+      entry: resolve(__dirname, './lib/index.ts'),
       name: '@dashi296/react-confirm',
       fileName: 'index',
       formats: ["es", "umd"]
