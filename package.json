@@ -1,5 +1,5 @@
 {
-  "name": "react-confirm",
+  "name": "@dashi296/react-confirm",
   "private": false,
   "version": "0.1.0",
   "description": "A simple react confirm hooks",
