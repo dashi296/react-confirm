@@ -1,9 +1,6 @@
-export function setupCounter(element: HTMLButtonElement) {
-  let counter = 0
-  const setCounter = (count: number) => {
-    counter = count
-    element.innerHTML = `count is ${counter}`
-  }
-  element.addEventListener('click', () => setCounter(++counter))
-  setCounter(0)
+import { useState } from "react"
+export function useCounter() {
+  const [counter, setCounter] = useState(0)
+  const increment = () => setCounter((prev => prev + 1))
+  return { counter, increment }
 }
