@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, './lib/main.ts'),
-      name: 'Confirm',
+      name: '@dashi296/react-confirm',
       fileName: 'index',
       formats: ["es", "umd"]
     }
