@@ -39,6 +39,9 @@ importers:
       vite:
         specifier: ^5.2.10
         version: 5.3.3(@types/node@20.14.10)
+      vite-plugin-css-injected-by-js:
+        specifier: ^3.5.1
+        version: 3.5.1(vite@5.3.3(@types/node@20.14.10))
       vite-plugin-dts:
         specifier: ^3.9.1
         version: 3.9.1(@types/node@20.14.10)(rollup@4.18.1)(typescript@5.5.3)(vite@5.3.3(@types/node@20.14.10))
@@ -763,6 +766,11 @@ packages:
     resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
     engines: {node: '>= 0.10'}
 
+  vite-plugin-css-injected-by-js@3.5.1:
+    resolution: {integrity: sha512-9ioqwDuEBxW55gNoWFEDhfLTrVKXEEZgl5adhWmmqa88EQGKfTmexy4v1Rh0pAS6RhKQs2bUYQArprB32JpUZQ==}
+    peerDependencies:
+      vite: '>2.0.0-0'
+
   vite-plugin-dts@3.9.1:
     resolution: {integrity: sha512-rVp2KM9Ue22NGWB8dNtWEr+KekN3rIgz1tWD050QnRGlriUCmaDwa7qA5zDEjbXg5lAXhYMSBJtx3q3hQIJZSg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1427,6 +1435,10 @@ snapshots:
       punycode: 2.3.1
 
   validator@13.12.0: {}
+
+  vite-plugin-css-injected-by-js@3.5.1(vite@5.3.3(@types/node@20.14.10)):
+    dependencies:
+      vite: 5.3.3(@types/node@20.14.10)
 
   vite-plugin-dts@3.9.1(@types/node@20.14.10)(rollup@4.18.1)(typescript@5.5.3)(vite@5.3.3(@types/node@20.14.10)):
     dependencies:
