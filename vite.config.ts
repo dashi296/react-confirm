@@ -11,6 +11,15 @@ export default defineConfig({
       name: '@dashi296/react-confirm',
       fileName: 'index',
       formats: ["es", "umd"]
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM"
+        }
+      }
     }
-  }
+  },
 })
