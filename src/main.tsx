@@ -2,7 +2,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import React from "react";
 import { ConfirmProvider } from "../dist/index";
-import "./style.css";
 
 const defaultOptions = {
   okText: "+1",
