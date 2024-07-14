@@ -25,6 +25,7 @@ export default function ConfirmDialog({
     Title,
     Description,
     Close,
+    Confirm,
   } = options.components
 
   return (
@@ -35,7 +36,7 @@ export default function ConfirmDialog({
             cloneElement(Description, {...Description.props, key: "description"}, message),
             cloneElement(Close, { ...Close.props, key: "close", onClick: onCancel }, options.cancelText
             ),
-            cloneElement(Close, { ...Close.props, key: "confirm", onClick: onConfirm }, options.okText),
+            cloneElement(Confirm, { ...Confirm.props, key: "confirm", onClick: onConfirm }, options.okText),
           ]),
         ]),
       ])
